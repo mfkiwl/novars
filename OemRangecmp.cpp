@@ -1,3 +1,4 @@
+
 /*
  *
  * This file is a part of NovaRS.
@@ -20,36 +21,11 @@
  *
  */
 
-#include "typedefs.h"
-#include "daemonize.h"
+#include "OemRangecmp.h"
 
-#include <unistd.h>
+using namespace novars;
 
-
-int main(int argc, char** argv)
+OemRangecmp::OemRangecmp()
 {
-    // Create thread objects before demonizing
 
-    BecomeDaemon(); // close all streams, detach from terminal, fork process
-    SetupSignals(); // setup program to react on OS signals
-
-    // Start threads here
-
-
-    while(coughtShutdownSignal == 0 && coughtHupSignal == 0)
-    {
-        // main thread code here
-        // ..
-        usleep(100000);
-    }
-
-    // Stop threads here
-    // ...
-
-    // Remove PID file
-    CleanUp();
-
-
-    return 0;
 }
-

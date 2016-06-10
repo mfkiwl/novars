@@ -19,3 +19,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+#include <stdint.h>
+#include "config.h"
+
+namespace novars {
+#ifdef UNIX
+    typedef int8_t Char;
+    typedef uint8_t UChar;
+    typedef int16_t Short;
+    typedef uint16_t UShort;
+    typedef int32_t Long;
+    typedef uint32_t ULong;
+#endif
+
+#ifdef WIN32
+    typedef __int8 Char;
+    typedef __uint8 UChar;
+    typedef __int16 Short;
+    typedef __uint16 UShort;
+    typedef __int32 Long;
+    typedef __uint32 ULong;
+#endif
+
+    typedef ULong sat_flag_t;
+
+}
+

@@ -20,36 +20,22 @@
  *
  */
 
-#include "typedefs.h"
-#include "daemonize.h"
 
-#include <unistd.h>
+#ifndef OEMRANGECMP_H
+#define OEMRANGECMP_H
+
+#include "OemLog.h"
 
 
-int main(int argc, char** argv)
+namespace novars
 {
-    // Create thread objects before demonizing
 
-    BecomeDaemon(); // close all streams, detach from terminal, fork process
-    SetupSignals(); // setup program to react on OS signals
+class OemRangecmp : public OemLog
+{
+public:
+    OemRangecmp();
+};
 
-    // Start threads here
+} // namespace novars
 
-
-    while(coughtShutdownSignal == 0 && coughtHupSignal == 0)
-    {
-        // main thread code here
-        // ..
-        usleep(100000);
-    }
-
-    // Stop threads here
-    // ...
-
-    // Remove PID file
-    CleanUp();
-
-
-    return 0;
-}
-
+#endif // OEMRANGECMP_H

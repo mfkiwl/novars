@@ -20,36 +20,26 @@
  *
  */
 
+
+#ifndef OEMLOG_H
+#define OEMLOG_H
+
+
 #include "typedefs.h"
-#include "daemonize.h"
 
-#include <unistd.h>
-
-
-int main(int argc, char** argv)
+namespace novars
 {
-    // Create thread objects before demonizing
 
-    BecomeDaemon(); // close all streams, detach from terminal, fork process
-    SetupSignals(); // setup program to react on OS signals
+class OemLog
+{
+public:
+    OemLog();
+    virtual void decodeASCII(std::string &buf);
+    virtual void decodeBinary(std::vector<UChar>);
+protected:
 
-    // Start threads here
+};
 
-
-    while(coughtShutdownSignal == 0 && coughtHupSignal == 0)
-    {
-        // main thread code here
-        // ..
-        usleep(100000);
-    }
-
-    // Stop threads here
-    // ...
-
-    // Remove PID file
-    CleanUp();
-
-
-    return 0;
 }
 
+#endif // OEMLOG_H

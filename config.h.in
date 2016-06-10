@@ -1,0 +1,17 @@
+/** 
+  * This file config.h automatically generated
+  * every changes will be lost at the next run of cmake.
+  * 
+  * If you want to make some changes, please edit config.h.in and CMakeLists.txt
+  * 
+  */
+
+#ifndef CONFIG_H_
+#define CONFIG_H_
+
+// Architecture
+#cmakedefine WIN32
+#cmakedefine UNIX
+#cmakedefine APPLE
+
+#endif // CONFIG_H_

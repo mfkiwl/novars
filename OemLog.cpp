@@ -20,36 +20,9 @@
  *
  */
 
-#include "typedefs.h"
-#include "daemonize.h"
+#include "OemLog.h"
 
-#include <unistd.h>
-
-
-int main(int argc, char** argv)
+OemLog::OemLog()
 {
-    // Create thread objects before demonizing
 
-    BecomeDaemon(); // close all streams, detach from terminal, fork process
-    SetupSignals(); // setup program to react on OS signals
-
-    // Start threads here
-
-
-    while(coughtShutdownSignal == 0 && coughtHupSignal == 0)
-    {
-        // main thread code here
-        // ..
-        usleep(100000);
-    }
-
-    // Stop threads here
-    // ...
-
-    // Remove PID file
-    CleanUp();
-
-
-    return 0;
 }
-

@@ -6,7 +6,10 @@ SET (NOVARS        "NovaRS"      CACHE STRING "Name of the executeable")
 
 SET (DESTDIR)
 
-SET ( NOVARS_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp )
+SET ( NOVARS_SOURCES 
+                ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/typedefs.h
+ )
 
 set ( DOCS
 		${CMAKE_CURRENT_SOURCE_DIR}/HOWTO/Connecting_NovAtel_receiver_via_USB.txt.gz
@@ -15,6 +18,10 @@ set ( DOCS
 		${CMAKE_CURRENT_SOURCE_DIR}/COPYING
 		${CMAKE_CURRENT_SOURCE_DIR}/debian/changelog
 )
+
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/config.h)
+
 
 ADD_EXECUTABLE( ${NOVARS}  ${NOVARS_SOURCES})
 

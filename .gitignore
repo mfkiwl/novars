@@ -1,0 +1,8 @@
+config.h
+cmake_install.cmake     
+cmake_uninstall.cmake
+CMakeCache.txt
+CMakeLists.txt.user
+CMakeFiles/*
+Makefile
+NovaRS

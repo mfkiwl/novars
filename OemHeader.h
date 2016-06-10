@@ -20,36 +20,19 @@
  *
  */
 
-#include "typedefs.h"
-#include "daemonize.h"
-
-#include <unistd.h>
+#ifndef OEMHEADER_H
+#define OEMHEADER_H
 
 
-int main(int argc, char** argv)
+namespace novars
 {
-    // Create thread objects before demonizing
 
-    BecomeDaemon(); // close all streams, detach from terminal, fork process
-    SetupSignals(); // setup program to react on OS signals
+class OemHeader
+{
+public:
+    OemHeader();
+};
 
-    // Start threads here
+}  // namespace novars
 
-
-    while(coughtShutdownSignal == 0 && coughtHupSignal == 0)
-    {
-        // main thread code here
-        // ..
-        usleep(100000);
-    }
-
-    // Stop threads here
-    // ...
-
-    // Remove PID file
-    CleanUp();
-
-
-    return 0;
-}
-
+#endif // OEMHEADER_H
