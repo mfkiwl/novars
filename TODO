@@ -1,0 +1,9 @@
+- Implement binary logs: RANGECMP, GLOEPHEMERIS, GPSEPHEM, IONUTC
+- Implement ASCII commands: LOG, UNLOG, UNLOGALL
+- Re-Implement RINEX 2.11 
+- Implement RINEX 3.02
+- Integrate libconfig into source tree
+
+Nice to have
+- Web interface
+

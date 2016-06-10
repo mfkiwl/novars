@@ -1,0 +1,20 @@
+Source: novars
+Section: misc
+Priority: optional
+Maintainer: misha <mikhailo.lytvyn@gmail.com>
+Build-Depends: debhelper (>= 4), libconfigduo | libconfig++8 | libconfig++9, libconfigduo-dev | libconfig++8-dev | libconfig++-dev, cmake, texlive
+Standards-Version: 3.7.2
+
+Package: novars
+Architecture: any
+Depends: libconfigduo | libconfig++8 | libconfig++9 | libconfig++
+Suggests: ncompress
+Description: Permanent GPS/GLONASS station controlling software.
+ NovaRS - software to controll GPS/GLONASS station equiped with NovAtel receiver. 
+ .
+ This software creates RINEX 2.11 observation and navigation files on-the-fly from
+ receiver serial stream, stores raw strings. Any navigation system (GPS or GLONASS)
+ can be excluded from output RINEX files. 
+ Also, NovaRS can setup observation session parameters such as sampling interval 
+ and satellite mask angle. Software can also store hourly RINEX with IGS file naming 
+ conventions.

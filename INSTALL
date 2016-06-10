@@ -1,0 +1,27 @@
+Since release 1.4.0 NovaRS switched to CMake build system (www.cmake.org).
+To compile software issue
+
+cmake .
+make
+make install
+
+
+If you don't have/don't want CMake, you can use old way
+
+make -f Makefile.custom
+make install
+
+
+If you want to start daemon automatically at startup you can use script
+(NovaRS src dir)/scripts/novars. Note this script written for Debian GNU/Linux 
+and should be adapted  to use in other distributions. If you send me script for 
+your Linux distribution I shall be glad to include it in the next NovaRS release.
+
+
+If you are Debian/Ubuntu user you can build deb package using
+
+fakeroot debian/rules binary
+
+
+
+Enjoy!

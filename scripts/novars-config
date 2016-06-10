@@ -1,0 +1,236 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Curses::UI;
+my $cui = new Curses::UI( -color_support => 1 );
+
+## Now create menu
+my @menu = (
+               { -label => 'File',
+                 -submenu => [ { -label => 'Save      Ctrl+S', -value => \&exit_dialog  },
+			       { -label => 'Exit      Ctrl+Q', -value => \&exit_dialog  } ],
+               },
+           );
+
+my $menu = $cui->add(
+               'menu','Menubar',
+               -menu => \@menu,
+               -fg  => "blue",
+	       -bg   => "white",
+           );
+
+my $mainWindow = $cui->add(
+                     'mainWindow', 'Window',
+                     -border => 1,
+                     -y    => 1,
+                     -fg   => 'white',
+                     -bfg  => 'red',
+                 );
+
+
+my $SessionContainer = $mainWindow->add(
+                           'SessionContainer', 'Container',
+			);
+
+
+my $GPSCheckBox = $SessionContainer->add(
+                      'GPSCheckBox', 'Checkbox',
+                      -label	=> 'Store GPS data',
+                      -checked	=> 1,
+                  );
+
+my $GLONASSCheckBox = $SessionContainer->add(
+                          'GLONASSCheckBox', 'Checkbox',
+                          -label	=> 'store GLONASS data',
+                          -checked	=> 0,
+                          -y		=> 1,
+                      );
+
+
+my $deviceLabel = $SessionContainer->add(
+                      'deviceLabel', 'Label',
+                      -text	=> 'device',
+                      -x	=> 30,
+                  );
+
+my $devicePopupMenu = $SessionContainer->add(
+                          'devicePopupMenu', 'Popupmenu',
+                          -values    => [1, 2, 3, 4, 5, 6, 7],
+                          -labels    => { 1 => '/dev/ttyS0',
+                                          2 => '/dev/ttyS1',
+                                          3 => '/dev/ttyS2',
+                                          4 => '/dev/ttyS3',
+                                          5 => '/dev/ttyS4',
+                                          6 => '/dev/ttyUSB0',
+                                          7 => '/dev/ttyUSB1'
+                                        },
+			   -selected => 1,
+                          -x	=> 49,
+                      );
+
+
+my $baudrateLabel = $SessionContainer->add(
+                        'baudrateLabel', 'Label',
+                        -text	=> 'baudrate',
+                        -x		=> 30,
+                        -y		=> 1,
+
+                    );
+
+
+my $baudratePopupMenu = $SessionContainer->add(
+                            'baudratePopupMenu', 'Popupmenu',
+                            -values    => [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                            -labels    => { 1 => '300',
+                                            2 => '1200',
+                                            3 => '2400',
+                                            4 => '4800',
+                                            5 => '9600',
+                                            6 => '19200',
+                                            7 => '38400',
+					    8 => '57600',
+					    9 => '115200',
+                                          },
+			    -selected  =>  5,
+                            -x	=> 49,
+                            -y	=> 1,
+                        );
+
+my $intervalLabel = $SessionContainer->add(
+                        'intervalLabel', 'Label',
+                        -text	=> 'Sampling interval',
+                        -x		=> 30,
+                        -y		=> 2,
+                    );
+
+
+my $intervalPopupMenu = $SessionContainer->add(
+                            'intervalPopupMenu', 'Popupmenu',
+                            -values    => [1, 2, 3, 4, 5],
+                            -labels    => { 1 => '1 Hz',
+                                            2 => '5 Hz',
+                                            3 => '10 Hz',
+                                            4 => '30 Hz',
+                                            5 => '120 Hz'
+                                          },
+			    -selected	=> 4,
+                            -x		=> 49,
+                            -y		=> 2,
+                        );
+
+my $maskAngleLabel = $SessionContainer->add(
+                         'maskAngleLabel', 'Label',
+                         -text	=> 'mask angle',
+                         -x		=> 30,
+                         -y		=> 3,
+                     );
+
+
+
+my $maskAnglePopupMenu = $SessionContainer->add(
+                             'maskAnglePopupMenu', 'Popupmenu',
+                             -values  => [1, 2, 3, 4, 5, 6, 7],
+                             -labels  => {   1 => '0',
+                                             2 => '3',
+                                             3 => '5',
+                                             4 => '10',
+                                             5 => '15',
+                                             6 => '20',
+                                             7 => '30'
+                                         },
+			     -selected	=> 5,
+                             -x		=> 49,
+                             -y		=> 3,
+                         );
+
+my $makeRINEXCheckBox = $SessionContainer->add(
+                            'makeRINEXCheckBox', 'Checkbox',
+                            -label	=> 'make RINEX',
+                            -checked	=> 1,
+                            -x	=> 0,
+                            -y	=> 2,
+                        );
+
+
+my $makeRAWCheckBox = $SessionContainer->add(
+                          'makeRAWCheckBox', 'Checkbox',
+                          -label	=> 'make RAW',
+                          -checked	=> 0,
+                          -x	=> 0,
+                          -y	=> 3,
+                      );
+
+my $makeDailyFilesCheckBox = $SessionContainer->add(
+                                 'makeDailyFilesCheckBox', 'Checkbox',
+                                 -label	=> 'make daily files',
+                                 -checked	=> 0,
+                                 -x	=> 0,
+                                 -y	=> 4,
+                             );
+
+my $makeHourlyFilesCheckBox = $SessionContainer->add(
+                                  'makeHourlyFilesCheckBox', 'Checkbox',
+                                  -label	=> 'make hourly files',
+                                  -checked	=> 0,
+                                  -x	=> 0,
+                                  -y	=> 5,
+                              );
+
+
+my $separator = $SessionContainer->add(
+					'separator', 'Label',
+					-text	=> '================================================================',
+					-x => 0,
+					-y => 7,
+					);
+
+
+
+
+
+my $helpLabel1 = $SessionContainer->add(
+					'helpLabel1', 'Label',
+					-text	=> '<Tab>   - navigate between items',
+					-x => 0,
+					-y => 20,
+					);
+					
+my $helpLabel2 = $SessionContainer->add(
+					'helpLabel2', 'Label',
+					-text	=> 'CTRL+X  - activate menu',
+					-x => 0,
+					-y => 21,
+					);					
+
+my $helpLabel3 = $SessionContainer->add(
+					'helpLabel3', 'Label',
+					-text	=> '<SPASE> - set/unset checkboxes',
+					-x => 0,
+					-y => 22,
+					);
+					
+my $helpLabel4 = $SessionContainer->add(
+					'helpLabel4', 'Label',
+					-text	=> 'CTRL+Q  - exit',
+					-x => 0,
+					-y => 23,
+					);					
+
+### Key bindings
+$cui->set_binding(sub {$menu->focus()}, "\cX");
+$cui->set_binding( \&exit_dialog , "\cQ");
+$cui->focus($mainWindow);
+
+### Focus and main loop
+$cui->mainloop();
+
+sub exit_dialog()
+{
+    my $return = $cui->dialog(
+                     -message   => "Do you really want to quit?",
+                     -title     => "Are you sure?",
+                     -buttons   => ['yes', 'no'],
+                 );
+
+    exit(0) if $return;
+}

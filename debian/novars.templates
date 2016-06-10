@@ -1,0 +1,86 @@
+Template: novars/serial_port
+Type: select
+Choices: /dev/ttyS0, /dev/ttyS1, /dev/ttyS2, /dev/ttyS3, /dev/ttyUSB0, /dev/ttyUSB1, /dev/ttyUSB2, /dev/ttyUSB3
+Default: /dev/ttyS0
+Description: Choose serial port:
+ GNSS receiver should send data streams and receive commands through serial port.
+ For some receivers it is posiible to use  serial-over-USB connection. In this case
+ you have to configure usbresial kernel module and connec your receiver to USB port.
+ .
+ If your receiver is connected to PC via serial port (COM), use one of /dev/ttySx devices.
+ If you use serial-over-USB connection, choose something like /dev/ttyUSBx
+
+Template: novars/baudrate
+Type: select
+Choices: 300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 115200
+Default: 115200
+Description: Choose port baudrate:
+ Setup serial port baudrate. The default baudrate for NovAtel receivers is 9600,
+ but you can make your PC and receiver work with much higher baudrate. 
+ .
+ WARNING: Do not forget to setup your receiver port to work with chosen baudrate with COM command!
+
+Template: novars/observation_directory
+Type: string
+Default: /home/gps/DATA
+Description: Input observation directory:
+ Input root directory where NovaRS will store data.
+
+Template: novars/marker_name
+Type: string
+Default: ????
+Description: Input station name:
+ Input station name (4 chars).
+
+Template: novars/receiver_type
+Type: select
+Choices: NOV OEM4-G2, NOV OEMV2, NOV OEMV3, NOV OEMV3-RT2 
+Default: NOV OEMV3
+Description: Choose you receiver type:
+ Select your NovAtel receiver type from list. List according to IGS names,
+ see ftp://igscb.jpl.nasa.gov/pub/station/general/rcvr_ant.tab for details. 
+ .
+ WARNING: If you have a different receiver, we can not garantee a proper work of your 
+ equipment!
+
+Template: novars/interval
+Type: select
+Choices: 1, 5, 10, 30, 120, 180
+Default: 1
+Description: Choose sampling interval
+ Please set the sampling interval in sec.
+ .
+ This parameter is defines how frequent GNSS data will be stored to hard drive:
+ i. e. 1 means every second, 30 means every 30 secons etc.
+
+Template: novars/mask_angle
+Type: select
+Choices: 1, 3, 5, 10, 15, 20, 25, 30
+Default: 10
+Description: Setup satellite mask angle
+ All signals from satellites below mask angle will be ignored.
+ .
+ This value is valid for both GPS and GLONASS systems.
+ For IGS/EPN stations set this value to 3 or 1.
+
+Template: novars/make_raw
+Type: boolean
+Default: false
+Description: Should NovaRS store RAW data?
+ For now NovaRS works with ASCII logs and RAW data requires a lot of disk space.
+ .
+ Now it is save to say NO. 
+
+Template: novars/csmooth
+Type: select
+Choices: 2, 20, 50, 100, 200, 300
+Default: 100
+Description: Amount of carrier smoothing to be performed on the code measurenments.
+ The shorter the carrier smoothing interval the more noise there will be. The factory
+ default value is 100.
+ .
+ WARNING! Be careful with this option! If you don't know what are you doing you have two choices:
+ .
+ a) Don't touch anything and set factory default value (100)
+ .
+ b) Read carefully "OEMV Family Firmware Reference Manual" and set desirable value.

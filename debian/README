@@ -1,0 +1,3 @@
+If you are Debian user just issue
+    fakeroot debian/rules binary
+from source root directory to compile binary Debian package.

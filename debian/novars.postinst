@@ -1,0 +1,120 @@
+#!/bin/sh
+
+set -e
+
+CONFIGFILE="/etc/NovaRS/NovaRS.config"
+CONFIGFILE_OLD="/etc/NovaRS/NovaRS.config_old"
+
+. /usr/share/debconf/confmodule 
+
+## Read answers
+db_get novars/serial_port
+SERIAL_PORT="$RET"
+
+db_get novars/baudrate
+BAUDRATE="$RET"
+
+db_get novars/observation_directory  
+OBSERVATION_DIRECTORY="$RET"
+
+db_get novars/marker_name
+MARKER_NAME="$RET"
+
+db_get novars/receiver_type
+RECEIVER_TYPE="$RET"
+
+db_get novars/interval
+INTERVAL="$RET"
+
+db_get novars/mask_angle
+MASK_ANGLE="$RET"
+
+db_get novars/make_raw
+if [ "$RET" = "true" ]; then
+    MAKE_RAW="1"
+else
+    MAKE_RAW="0"
+fi
+
+db_get novars/csmooth
+CSMOOTH="$RET"
+
+if [ -e $CONFIGFILE ]; then 
+    MARKER_NUMBER=`cat $CONFIGFILE | grep MarkerNumber | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $2}'`
+    OBSERVING_AGENCY=`cat $CONFIGFILE | grep ObservingAgency | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $2}'`
+    RECEIVER_NUMBER=`cat $CONFIGFILE | grep ReceiverNumber  | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $2}'`
+##    RECEIVER_TYPE=`cat $CONFIGFILE | grep ReceiverType | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $2}'`
+    RECEIVER_FIRMWARE=`cat $CONFIGFILE | grep ReceiverFirmware | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $2}'`
+    ANTENNA_NUMBER=`cat $CONFIGFILE | grep AntennaNumber | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $2}'`    
+    ANTENNA_TYPE=`cat $CONFIGFILE | grep AntennaType | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $2}'`
+    ANTENNA_DOME=`cat $CONFIGFILE | grep AntennaType | grep ";" | awk '{print $3}' | awk -F';' '{print $1}' | awk -F'"' '{print $3}'`
+    X_COORD=`cat $CONFIGFILE | grep Xcoord | grep ";" | awk '{print $3}' | awk -F';' '{print $1}'`
+    Y_COORD=`cat $CONFIGFILE | grep Ycoord | grep ";" | awk '{print $3}' | awk -F';' '{print $1}'`
+    Z_COORD=`cat $CONFIGFILE | grep Zcoord | grep ";" | awk '{print $3}' | awk -F';' '{print $1}'`
+    ANTENNA_HEIGHT=`cat $CONFIGFILE | grep AntennaHeight | grep ";" | awk '{print $3}' | awk -F';' '{print $1}'`
+    NORTH_ECCENTRICITY=`cat $CONFIGFILE | grep NorthEccentricity | grep ";" | awk '{print $3}' | awk -F';' '{print $1}'`
+    EAST_ECCENTRICITY=`cat $CONFIGFILE | grep EastEccentricity | grep ";" | awk '{print $3}' | awk -F';' '{print $1}'`
+fi
+
+
+cat $CONFIGFILE > $CONFIGFILE_OLD
+
+## Write configfile
+echo "# This file is generated automatically"   > $CONFIGFILE
+echo "# please do not edit it manually"        >> $CONFIGFILE
+echo "# run dpkg-reconfigure novars instead"   >> $CONFIGFILE
+echo " "                                       >> $CONFIGFILE
+echo "General:"                                >> $CONFIGFILE
+echo "{"                                       >> $CONFIGFILE
+echo "	Communication:"                        >> $CONFIGFILE
+echo "	{"                                     >> $CONFIGFILE
+echo "		dev = \"${SERIAL_PORT}\";"     >> $CONFIGFILE
+echo "		baudrate = ${BAUDRATE};"       >> $CONFIGFILE
+echo "	};"                                    >> $CONFIGFILE
+echo " "                                       >> $CONFIGFILE
+echo "	Logs:"                                 >> $CONFIGFILE
+echo "	{"                                     >> $CONFIGFILE
+echo "		range = 1;"                    >> $CONFIGFILE
+echo "		rawephem = 0;"                 >> $CONFIGFILE
+echo "	};"                                    >> $CONFIGFILE
+echo " "                                       >> $CONFIGFILE
+echo "	Session:"                              >> $CONFIGFILE
+echo "	{"                                     >> $CONFIGFILE
+echo "		interval        = ${INTERVAL}.0;"  >> $CONFIGFILE
+echo "		maskAngle       = ${MASK_ANGLE};"  >> $CONFIGFILE
+echo "		storeGPS        = 1;"              >> $CONFIGFILE
+echo "		storeGLONASS    = 1;"              >> $CONFIGFILE 
+echo "		makeRINEX       = 1;"              >> $CONFIGFILE 
+echo "		makeRAW	        = ${MAKE_RAW};"    >> $CONFIGFILE
+echo "		obsDir   	= \"${OBSERVATION_DIRECTORY}\";" >> $CONFIGFILE
+echo "		makeHourlyFiles = 1;"                            >> $CONFIGFILE
+echo "		makeDailyFiles  = 0;"                            >> $CONFIGFILE
+echo "		csmooth         = ${CSMOOTH}; # This option sets  carrier smoothing time in sec." >> $CONFIGFILE
+echo "	};"                            >> $CONFIGFILE # end Session section
+echo " "                               >> $CONFIGFILE
+echo "	debug	 = 0;"                 >> $CONFIGFILE
+echo "	compress = 0;"                 >> $CONFIGFILE
+echo "	leap_sec = 15;"                >> $CONFIGFILE
+echo "};"                                >> $CONFIGFILE  # end General section
+echo " "                                 >> $CONFIGFILE
+echo "RINEXheader:"                      >> $CONFIGFILE
+echo "{"                                 >> $CONFIGFILE
+echo "	MarkerName        = \"$MARKER_NAME\";"       >> $CONFIGFILE
+echo "	MarkerNumber      = \"$MARKER_NUMBER\";"     >> $CONFIGFILE
+echo "	Observer          = \"NovaRS\";"             >> $CONFIGFILE
+echo "	ObservingAgency   = \"$OBSERVING_AGENCY\";"  >> $CONFIGFILE
+echo "	ReceiverNumber    = \"$RECEIVER_NUMBER\";"   >> $CONFIGFILE
+echo "	ReceiverType      = \"$RECEIVER_TYPE\";"     >> $CONFIGFILE
+echo "	ReceiverFirmware  = \"$RECEIVER_FIRMWARE\";" >> $CONFIGFILE
+echo "	AntennaNumber     = \"$ANTENNA_NUMBER\";"    >> $CONFIGFILE
+echo "	AntennaType       = \"$ANTENNA_TYPE        NONE\";" >> $CONFIGFILE
+echo "	Xcoord            = ${X_COORD};"                    >> $CONFIGFILE
+echo "	Ycoord            = ${Y_COORD};"                    >> $CONFIGFILE
+echo "	Zcoord            = ${Z_COORD};"                    >> $CONFIGFILE
+echo "	AntennaHeight     = ${ANTENNA_HEIGHT};"          >> $CONFIGFILE
+echo "	NorthEccentricity = ${NORTH_ECCENTRICITY};"      >> $CONFIGFILE
+echo "	EastEccentricity  = ${EAST_ECCENTRICITY};"       >> $CONFIGFILE
+echo "};" >> $CONFIGFILE # end RINEXheader   section
+echo " "  >> $CONFIGFILE
+
+

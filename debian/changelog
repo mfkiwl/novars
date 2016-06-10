@@ -1,0 +1,69 @@
+novars (2.1-2) unstable; urgency=low
+
+  * RINEX epoch line fixed
+
+ -- misha <mikhailo.lytvyn@gmail.com>  Tue, 17 Sep 2013 08:51:22 +0200
+
+
+novars (2.1-1) unstable; urgency=low
+  * New serial port polling mechanism enabling low CPU usage.
+  * Source code refractoring.
+
+ -- misha <misha@mao.kiev.ua>  Wed, 30 Mar 2011 11:50:40 +0000
+
+
+novars (1.4-3) unstable; urgency=low
+  * Decimate GLONASS time of ephemeris according to ICD, this
+    will correct firmware bug (up to 3.70 firmware version).
+
+ -- misha <misha@mao.kiev.ua>  Mon, 07 Dec 2009 13:39:52 +0200
+
+
+novars (1.4-2) unstable; urgency=low
+  
+  * Fixed source for 64-bit system build
+ 
+ -- misha <misha@mao.kiev.ua>  Thu, 12 May 2009 15:24:39 +0300
+
+novars (1.4-1) unstable; urgency=low
+  
+  * Rewriten RANGE parsing engine to prevent GLONASS data loss
+  
+ -- misha <misha@mao.kiev.ua>  Thu, 09 Apr 2009 16:28:39 +0300
+ 
+novars (1.3-1) unstable; urgency=low
+  
+  * Added leap seconds reading capability from IONUTC log
+  
+ -- misha <misha@mao.kiev.ua>  Fri, 19 Dec 2008 14:47:36 +0200
+
+novars (1.3-0) unstable; urgency=low
+
+  * Fixed unlogging non-NovaRS data
+    - Now NovaRS does not abuse RTCM corrections etc. :)
+  * Fixed   "ANTENNA: DELTA H/E/N"  RINEX header line data
+  * Some changes in raceiver port sending routines
+
+ -- misha <misha@mao.kiev.ua>  Wed, 19 Nov 2008 11:09:35 +0200
+
+novars (1.2-0) unstable; urgency=low
+
+  * Fixed RINEX version in GPS navigation files
+  * Added suport for GLONASS navigation files
+  
+ -- misha <misha@mao.kiev.ua>  Fri, 10 Oct 2008 13:46:52 +0200
+
+novars (1.1-2) unstable; urgency=low
+
+  * Fixed incorrect dates in RINEX 
+  * Fixed not fully GPS hourly NAV files 
+  
+ -- misha <misha@mao.kiev.ua>  Fri, 14 Dec 2007 11:52:22 +0200
+
+novars (1.1-1) unstable; urgency=low
+
+  * Initial release 
+  * Fixed sec format in EPOCH/SAT EVENT field
+
+ -- misha <misha@mao.kiev.ua>  Mon, 10 Sep 2007 07:44:59 +0200
+

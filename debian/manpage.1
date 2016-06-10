@@ -1,0 +1,65 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH NOVARS SECTION "September 10, 2007"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+NovaRS \- GPS/GLONASS station controlling software
+.\".SH SYNOPSIS
+.\".B novars
+.\".RI [ options ] " files" ...
+.\".br
+.\".B bar
+.\".RI [ options ] " files" ...
+.SH DESCRIPTION
+NovaRS - is a daemon to controll GPS/GLONASS station equiped with NovAtel receiver.                                                           
+Supported receivers are Pro-Pak-V3, DL-V3.
+                                                                                                                                          
+This software creates RINEX 2.11 observation and navigation files on-the-fly from                                                          
+receiver serial stream, stores raw strings. Any navigation system (GPS or GLONASS)                                                         
+can be excluded from output RINEX files.                                                                                                   
+Also, NovaRS can setup observation session parameters such as sampling interval                                                            
+and satellite mask angle. Software can also store hourly RINEX with IGS file naming                                                        
+conventions.
+
+
+.B novars
+and
+.B bar
+commands.
+.PP
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+.\" respectively.
+
+.SH OPTIONS
+NovaRS can be run as daemon and as raw file converter.
+In both modes NovaRS is controlled by configfile /etc/NovaRS/NovaRS.config
+which has selfdocumented style.
+.TP
+.B \-f, \-\-file <file>
+.TP
+convert raw file and exit.
+.TP
+.B \-h, \-\-help
+.TP
+print help message and exit.
+
+.SH SEE ALSO
+.BR /etc/NovaRS/NovaRS.config
+.br
+.SH AUTHOR
+NovaRS was written by Mikhailo Lytvyn <misha2mao.kiev.ua>.
+

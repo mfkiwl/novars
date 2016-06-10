@@ -1,0 +1,43 @@
+#!/bin/sh
+# Start/stop/restart the NovaRS daemon:
+
+NAME="/etc/rc.d/rc.novars"
+
+NovaRS_start() {
+  echo "Starting GNSS data storing program"
+  /usr/sbin/NovaRS
+}
+
+NovaRS_stop() {
+  echo "Stopping GNSS data storing program"
+  killall NovaRS
+}
+
+NovaRS_restart() {
+  if [ -r /var/run/NovaRS.pid ]; then
+    echo "Reloading GNSS data storing program"
+    kill `cat /var/run/NovaRS.pid`
+  else
+    echo "WARNING: There does not appear to be a parent instance of NovaRS is running."
+    echo "         If you really want to kill all running instances of NovaRS (including"
+    echo "         any sessions currently in use), run '/etc/rc.d/rc.novars stop' instead."
+    exit 1
+  fi
+  sleep 1
+  /usr/sbin/NovaRS
+}
+
+case "$1" in
+'start')
+  NovaRS_start
+  ;;
+'stop')
+  NovaRS_stop
+  ;;
+'restart')
+  NovaRS_restart
+  ;;
+*)
+  echo "usage $NAME start|stop|restart"
+esac
+
