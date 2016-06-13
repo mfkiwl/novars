@@ -22,9 +22,92 @@
 
 #include "OemHeader.h"
 
-using namespace novars;
+namespace novars {
+
+
 
 OemHeader::OemHeader()
 {
 
 }
+
+
+bool OemHeader::decodeASCII(const std::string &buf)
+{
+    if(buf.empty())
+        return false;
+
+    std::vector<std::string> fields;
+
+    split(buf, ',', fields);
+
+    if((unsigned int)fields.size() < 10)
+        return false;
+
+    if(!parseMessageID(fields.at(1)))
+        return false;
+
+/*
+    UChar length_;
+    MessageID message_id_;
+    MessageType message_type_;
+    UChar message_length_;
+    UShort sequence_;
+    UChar idle_time_    ;
+    TimeStatus time_status_;
+    DATE date_;
+    ULong receiver_status_;
+    UShort receiver_sw_version_;
+*/
+    return true;
+}
+
+bool OemHeader::parseMessageID(const std::string &msgID)
+{
+
+    if(msgID == std::string("#RANGE"))
+    {
+        message_id_ = RANGE;
+        return true;
+    }
+
+    if(msgID == std::string("#RANGECMP"))
+    {
+        message_id_ = RANGECMP;
+        return true;
+    }
+
+    if(msgID == std::string("#GLOEPHEMERIS"))
+    {
+        message_id_ = GLOEPHEMERIS;
+        return true;
+    }
+
+    if(msgID == std::string("#GPSEPHEM"))
+    {
+        message_id_ = GPSEPHEM;
+       return true;
+    }
+
+
+    if(msgID == std::string("#IONUTC"))
+    {
+       message_id_ = IONUTC;
+       return true;
+    }
+
+
+    return false;
+
+}
+
+bool OemHeader::decodeBinary(const std::vector<UChar> &buf)
+{
+    if(buf.size() < 28)
+        return false;
+
+    return true;
+}
+
+
+} // namespace novars

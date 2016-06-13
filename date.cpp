@@ -28,8 +28,18 @@
 
 #include "date.h"
 
-using namespace std;
-using namespace novars;
+
+namespace  novars {
+
+
+
+
+char DATE::hour_letters_array_[24] = {'A','B','C','D','E','F','G','H',
+                                    'I','J','K','L','M','N','O','P',
+                                    'Q','R','S','T','U','V','W','X'};
+
+unsigned int DATE::days_in_month_[2][12] = {{31,28,31,30,31,30,31,31,30,31,30,31},
+                                     {31,29,31,30,31,30,31,31,30,31,30,31}};
 
 DATE::DATE()
 {
@@ -38,91 +48,22 @@ DATE::DATE()
     /* Get the current time. */
     curtime = time (NULL);
     /* Convert it to local time representation. */
-    loctime = localtime (&curtime);
+    //loctime = localtime (&curtime);
+
+#ifdef UNIX
+    localtime_r(&curtime, localtime);
+#elif WIN32
+    localtime_s(localtime, &curtime);
+#endif
 
     setYear((unsigned int)(loctime->tm_year+1900));
     setYear2((unsigned int)(loctime->tm_year % 100));
-    setMounth((unsigned int)loctime->tm_mon);
+    setMonth((unsigned int)loctime->tm_mon);
     setDay((unsigned int)loctime->tm_mday);
     setHour((unsigned int)loctime->tm_hour);
     setMin((unsigned int)loctime->tm_min);
     setSec((unsigned int)loctime->tm_sec);
     setDOY((unsigned int)(loctime->tm_yday+1));
-    switch (getHour())
-    {
-    case 0:
-        HourLetter = 'A';
-        break;
-    case 1:
-        HourLetter = 'B';
-        break;
-    case 2:
-        HourLetter = 'C';
-        break;
-    case 3:
-        HourLetter = 'D';
-        break;
-    case 4:
-        HourLetter = 'E';
-        break;
-    case 5:
-        HourLetter = 'F';
-        break;
-    case 6:
-        HourLetter = 'G';
-        break;
-    case 7:
-        HourLetter = 'H';
-        break;
-    case 8:
-        HourLetter = 'I';
-        break;
-    case 9:
-        HourLetter = 'J';
-        break;
-    case 10:
-        HourLetter = 'K';
-        break;
-    case 11:
-        HourLetter = 'L';
-        break;
-    case 12:
-        HourLetter = 'M';
-        break;
-    case 13:
-        HourLetter = 'N';
-        break;
-    case 14:
-        HourLetter = 'O';
-        break;
-    case 15:
-        HourLetter = 'P';
-        break;
-    case 16:
-        HourLetter = 'Q';
-        break;
-    case 17:
-        HourLetter = 'R';
-        break;
-    case 18:
-        HourLetter = 'S';
-        break;
-    case 19:
-        HourLetter = 'T';
-        break;
-    case 20:
-        HourLetter = 'U';
-        break;
-    case 21:
-        HourLetter = 'V';
-        break;
-    case 22:
-        HourLetter = 'W';
-        break;
-    case 23:
-        HourLetter = 'X';
-        break;
-    }
 }
 
 DATE::DATE(double sec1, int GPSWeek)
@@ -171,115 +112,42 @@ DATE::DATE(double sec1, int GPSWeek)
     int DOM = DOY; // Day of mounth
 
     // Remember array indexing begins with 0 !!!!
-    int DaysInMounth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    //int days_in_month_[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+    int is_leap_year = 0;
 
     if ( (getYear() % 4 )== 0)
         if ( (getYear() % 100 ) != 0 || (getYear() % 100 == 0 && getYear() % 400 == 0 ) )
-            DaysInMounth[1] = 29;
+            is_leap_year = 1;
 
     i = 0;
 
     while (DOY > 0)
     {
-        DOY -= DaysInMounth[i];
+        DOY -= days_in_month_[is_leap_year][i];
         i++;
     }
 
-    setMounth(i);
+    setMonth(i);
 
-    for (unsigned int j = 1; j < getMounth(); j++)
+    for (unsigned int j = 1; j < getMonth(); j++)
     {
-        DOM -= DaysInMounth[j-1];
+        DOM -= days_in_month_[is_leap_year][j-1];
     }
 
     setDay(DOM);
-    switch (getHour())
-    {
-    case 0:
-        HourLetter = 'A';
-        break;
-    case 1:
-        HourLetter = 'B';
-        break;
-    case 2:
-        HourLetter = 'C';
-        break;
-    case 3:
-        HourLetter = 'D';
-        break;
-    case 4:
-        HourLetter = 'E';
-        break;
-    case 5:
-        HourLetter = 'F';
-        break;
-    case 6:
-        HourLetter = 'G';
-        break;
-    case 7:
-        HourLetter = 'H';
-        break;
-    case 8:
-        HourLetter = 'I';
-        break;
-    case 9:
-        HourLetter = 'J';
-        break;
-    case 10:
-        HourLetter = 'K';
-        break;
-    case 11:
-        HourLetter = 'L';
-        break;
-    case 12:
-        HourLetter = 'M';
-        break;
-    case 13:
-        HourLetter = 'N';
-        break;
-    case 14:
-        HourLetter = 'O';
-        break;
-    case 15:
-        HourLetter = 'P';
-        break;
-    case 16:
-        HourLetter = 'Q';
-        break;
-    case 17:
-        HourLetter = 'R';
-        break;
-    case 18:
-        HourLetter = 'S';
-        break;
-    case 19:
-        HourLetter = 'T';
-        break;
-    case 20:
-        HourLetter = 'U';
-        break;
-    case 21:
-        HourLetter = 'V';
-        break;
-    case 22:
-        HourLetter = 'W';
-        break;
-    case 23:
-        HourLetter = 'X';
-        break;
-    }
 
 }
 
-ostream &operator << (ostream &output, const DATE &date)
+std::ostream &operator << (std::ostream &output, const DATE &date)
 {
     //   2007     1     4     0     0    0.0000000
     output.precision(7);
-    output << setw(6) << date.year << setw(6) << date.mounth << setw(6) << date.day << setw(6) << date.hour
-    << setw(6) << date.min;
+    output << std::setw(6) << date.year_ << std::setw(6) << date.month_ << std::setw(6) << date.day_ << std::setw(6) << date.hour_
+    << std::setw(6) << date.min_;
     output.precision(4);
-    output.setf(ios::fixed);
-    output << setw(13) << (double)date.sec;
+    output.setf(std::ios::fixed);
+    output << std::setw(13) << (double)date.sec_;
     return output;
 }
 
@@ -294,7 +162,7 @@ void DATE::setCurrentTime()
 
     setYear((unsigned int)(loctime->tm_year+1900));
     setYear2((unsigned int)(loctime->tm_year % 100));
-    setMounth((unsigned int)loctime->tm_mon);
+    setMonth((unsigned int)loctime->tm_mon);
     setDay((unsigned int)loctime->tm_mday);
     setHour((unsigned int)loctime->tm_hour);
     setMin((unsigned int)loctime->tm_min);
@@ -302,7 +170,7 @@ void DATE::setCurrentTime()
 }
 
 
-int DATE::prewHour()
+int DATE::prewHour() const
 {
 
     int prewHour = getHour() - 1;
@@ -312,14 +180,16 @@ int DATE::prewHour()
     return prewHour;
 }
 
-int DATE::prewDOY()
+int DATE::prewDOY() const
 {
+    unsigned int year_minus_1 = year_-1;
+
     int prewDOY = getDOY() - 1;
     if (prewDOY == 0)
     {
-        if ( ((getYear() - 1) % 4 ) == 0)
+        if ( (year_minus_1 % 4 ) == 0)
         {
-            if ((getYear() - 1) % 100 != 0 || ( (getYear() - 1) % 100 == 0 && (getYear() - 1) % 400 == 0 ) )
+            if ( year_minus_1 % 100 != 0 || ( (year_minus_1 % 100 == 0) && (year_minus_1 % 400 == 0) ) )
                 prewDOY = 365;
             else
                 prewDOY = 364;
@@ -328,4 +198,6 @@ int DATE::prewDOY()
     return prewDOY;
 
 }
+
+} // namespace novars
 

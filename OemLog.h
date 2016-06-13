@@ -26,17 +26,30 @@
 
 
 #include "typedefs.h"
+#include "OemHeader.h"
+
+#include <string>
+#include <vector>
+
+
 
 namespace novars
 {
+
 
 class OemLog
 {
 public:
     OemLog();
-    virtual void decodeASCII(std::string &buf);
-    virtual void decodeBinary(std::vector<UChar>);
+    virtual ~OemLog(){}
+    virtual void decodeASCII(const std::string &buf) = 0;
+    virtual void decodeBinary(const std::vector<UChar> &buf) = 0;
+
 protected:
+    static const Char sync1_;
+    static const Char sync2_;
+    static const Char sync3_;
+    OemHeader header_;
 
 };
 

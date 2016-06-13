@@ -20,6 +20,11 @@
  *
  */
 
+//#ifndef TYPEDEFS_H_
+//#define TYPEDEFS_H_
+
+#pragma  once
+
 #include <stdint.h>
 #include "config.h"
 
@@ -43,6 +48,31 @@ namespace novars {
 #endif
 
     typedef ULong sat_flag_t;
+    // Bit allocation
+    // GNSStype, Freq slot (GLONASS) | PRN | Spare bits | Signal type
+    // xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx
+    static sat_flag_t GNSS_TYPE      = 0xF0000000;
+    static sat_flag_t FREQUENCY_SLOT = 0x0F000000;
+    static sat_flag_t PRN            = 0x00FF0000;
+    static sat_flag_t SIGNAL_TYPE    = 0x000000FF;
 
-}
+    static sat_flag_t GPS            = 0x10000000;
+    static sat_flag_t GLONASS        = 0x20000000;
+    static sat_flag_t GALILEO        = 0x40000000;
+    static sat_flag_t SBAS           = 0x80000000;
 
+    static sat_flag_t L1CA           = 0b00000001;
+    static sat_flag_t L5             = 0b00000010;
+    static sat_flag_t L2P            = 0b00000100;
+    static sat_flag_t L2P_CODELESS   = 0b00001000;
+    static sat_flag_t L2C            = 0b00010000;
+    static sat_flag_t L2CA           = 0b00100000;
+    static sat_flag_t E1             = 0b01000000;
+    static sat_flag_t E5a            = 0b10000000;
+    static sat_flag_t E5b            = 0b00000011;
+    static sat_flag_t AltBOC         = 0b00000110;
+    static sat_flag_t OMNISTAR       = 0b00001100;
+
+} // namespace novars
+
+//#endif // TYPEDEFS_H_

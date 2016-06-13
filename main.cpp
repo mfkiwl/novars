@@ -20,7 +20,7 @@
  *
  */
 
-#include "typedefs.h"
+
 #include "daemonize.h"
 
 #include <unistd.h>

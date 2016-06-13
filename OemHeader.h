@@ -24,13 +24,40 @@
 #define OEMHEADER_H
 
 
+#include "typedefs.h"
+#include "oem.h"
+#include "date.h"
+#include "StringUtils.h"
+
+#include <vector>
+
 namespace novars
 {
+
+
 
 class OemHeader
 {
 public:
     OemHeader();
+
+    bool decodeASCII(const std::string &buf);
+    bool decodeBinary(const std::vector<UChar> &buf);
+
+protected:
+    bool parseMessageID(const std::string &msgID);
+
+    UChar length_;
+    MessageID message_id_;
+    MessageType message_type_;
+    UChar message_length_;
+    UShort sequence_;
+    UChar idle_time_;
+    TimeStatus time_status_;
+    DATE date_;
+    ULong receiver_status_;
+    UShort receiver_sw_version_;
+
 };
 
 }  // namespace novars

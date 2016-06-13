@@ -22,7 +22,18 @@
 
 #include "OemLog.h"
 
+
+namespace novars
+{
+
+const Char OemLog::sync1_ = 0xAA;
+const Char OemLog::sync2_ = 0x44;
+const Char OemLog::sync3_ = 0x12;
+
 OemLog::OemLog()
 {
 
 }
+
+
+} // nameapce novars

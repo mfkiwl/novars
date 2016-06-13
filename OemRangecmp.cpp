@@ -23,9 +23,28 @@
 
 #include "OemRangecmp.h"
 
-using namespace novars;
+namespace novars
+{
 
 OemRangecmp::OemRangecmp()
 {
 
 }
+
+OemRangecmp::~OemRangecmp()
+{
+
+}
+
+
+void OemRangecmp::decodeASCII(std::string buf)
+{
+
+}
+
+void OemRangecmp::decodeBinary(std::vector<UChar> buf)
+{
+
+}
+
+} // namespace novars

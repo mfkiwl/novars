@@ -9,6 +9,13 @@ SET (DESTDIR)
 SET ( NOVARS_SOURCES 
                 ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/typedefs.h
+                ${CMAKE_CURRENT_SOURCE_DIR}/StringUtils.h
+                ${CMAKE_CURRENT_SOURCE_DIR}/date.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/ncrc32.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/OemHeader.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/OemLog.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/OemRangecmp.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/OemRange.cpp
  )
 
 set ( DOCS

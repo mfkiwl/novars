@@ -33,111 +33,74 @@ namespace novars
 
 class DATE
 {
-    friend std::ostream &operator << (ostream &, const DATE &);
+public:
+    friend std::ostream &operator << (std::ostream &, const DATE &);
 private:
-    unsigned int year;
-    unsigned int year2;
-    unsigned int mounth;
-    unsigned int day;
-    unsigned int DOY;
-    unsigned int hour;
-    unsigned int min;
-    double sec;
-    char HourLetter;
+    unsigned int year_;
+    unsigned int year2_;
+    unsigned int month_;
+    unsigned int day_;
+    unsigned int day_of_year_;
+    unsigned int hour_;
+    unsigned int min_;
+    double sec_;
+
+    static char hour_letters_array_[24];
+    static unsigned int days_in_month_[2][12];
 
 public:
-    DATE(); // default constructor
-    DATE(double sec, int GPSWeek);
-    inline unsigned int getYear()
-    {
-        return year ;
-    };
-    inline unsigned int getYear2()
-    {
-        return year2;
-    };
-    inline unsigned int getMounth()
-    {
-        return mounth;
-    };
-    inline unsigned int getDay()
-    {
-        return day;
-    };
-    inline unsigned int getDOY()
-    {
-        return DOY;
-    };
-    inline unsigned int getHour()
-    {
-        return hour;
-    };
-    inline unsigned int getMin()
-    {
-        return min;
-    };
-    inline double       getSec()
-    {
-        return sec;
-    };
-    inline char		getHourLetter()
-    {
-        return HourLetter;
-    };
-    inline void setYear(unsigned int yr)
-    {
-        year = yr;
-    };
-    inline void setYear2(unsigned int yr2)
-    {
-        year2 = yr2;
-    };
-    inline void setMounth(unsigned int mth)
-    {
-        mounth = mth;
-    };
-    inline void setDay(unsigned int d)
-    {
-        day = d;
-    };
-    inline void setDOY(unsigned int Dy)
-    {
-        DOY = Dy;
-    };
-    inline void setHour(unsigned int h)
-    {
-        hour = h;
-    };
-    inline void setMin(unsigned int m)
-    {
-        min = m;
-    };
-    inline void setSec(double s)
-    {
-        sec = s;
-    };
+    DATE();
+
+    DATE(double sec_, int GPSWeek);
+
+    inline unsigned int getYear() const { return year_ ; }
+
+    inline unsigned int getYear2() const { return year2_; }
+
+    inline unsigned int getMonth() const { return month_; }
+
+    inline unsigned int getDay() const { return day_; }
+
+    inline unsigned int getDOY() const { return day_of_year_; }
+
+    inline unsigned int getHour() const { return hour_; }
+
+    inline unsigned int getMin() const { return min_; }
+
+    inline double getSec() const { return sec_; }
+
+    inline char getHourLetter() const { if(hour_ >=0 && hour_ < 24) return hour_letters_array_[hour_]; }
+
+    inline void setYear(unsigned int yr) { year_ = yr; }
+
+    inline void setYear2(unsigned int yr2) { year2_ = yr2; }
+
+    inline void setMonth(unsigned int month) { month_ = month; }
+
+    inline void setDay(unsigned int day) { day_ = day; }
+
+    inline void setDOY(unsigned int dayOfYear) { day_of_year_ = dayOfYear; }
+
+    inline void setHour(unsigned int hour) { hour_ = hour; }
+
+    inline void setMin(unsigned int minute) { min_ = minute; }
+
+    inline void setSec(double seconds) { sec_ = seconds; }
+
     void setCurrentTime();
 
+    int prewHour() const;
 
-    int prewHour();
-    int prewDOY();
-    inline int prewYear()
-    {
-        return (year - 1);
-    };
-    inline int prewYear2()
-    {
-        return (year2 - 1);
-    };
+    int prewDOY() const ;
 
-    // operators
+    inline int prewYear() const { return (year_ - 1); }
+
+    inline int prewYear2() const { return (year2_ - 1); }
+
 
 };
 
 } // namespace novars
-
-
-
 
 
 #endif

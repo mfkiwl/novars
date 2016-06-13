@@ -24,16 +24,24 @@
 #ifndef OEMRANGECMP_H
 #define OEMRANGECMP_H
 
-#include "OemLog.h"
+#include "OemRange.h"
 
 
 namespace novars
 {
 
-class OemRangecmp : public OemLog
+class OemRangecmp : public OemRange
 {
 public:
     OemRangecmp();
+    virtual ~OemRangecmp();
+
+    void decodeASCII(std::string buf);
+    void decodeBinary(std::vector<UChar> buf);
+protected:
+
+
+
 };
 
 } // namespace novars
