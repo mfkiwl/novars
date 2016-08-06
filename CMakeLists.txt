@@ -6,6 +6,10 @@ SET (NOVARS        "NovaRS"      CACHE STRING "Name of the executeable")
 
 SET (DESTDIR)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-std=gnu++0x)
+endif()
+
 SET ( NOVARS_SOURCES 
                 ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/typedefs.h

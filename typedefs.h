@@ -47,6 +47,7 @@ namespace novars {
     typedef __uint32 ULong;
 #endif
 
+
     typedef ULong sat_flag_t;
     // Bit allocation
     // GNSStype, Freq slot (GLONASS) | PRN | Spare bits | Signal type

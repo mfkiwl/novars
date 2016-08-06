@@ -30,6 +30,7 @@
 #include "StringUtils.h"
 
 #include <vector>
+#include <string>
 
 namespace novars
 {
@@ -46,6 +47,10 @@ public:
 
 protected:
     bool parseMessageID(const std::string &msgID);
+    inline void parseSequience(const std::string &msgField){sequence_ = std::stoi(msgField);}
+    inline void parseIdleTime(const std::string &msgField){idle_time_ = std::stoi(msgField);}
+    bool parseTimeStatus(const std::string &msgField);
+
 
     UChar length_;
     MessageID message_id_;

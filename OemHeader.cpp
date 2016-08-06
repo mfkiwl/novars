@@ -44,21 +44,16 @@ bool OemHeader::decodeASCII(const std::string &buf)
     if((unsigned int)fields.size() < 10)
         return false;
 
-    if(!parseMessageID(fields.at(1)))
+
+    if( !(parseMessageID(fields.at(1)) &&
+          parseTimeStatus(fields.at(5))) )
         return false;
 
-/*
-    UChar length_;
-    MessageID message_id_;
-    MessageType message_type_;
-    UChar message_length_;
-    UShort sequence_;
-    UChar idle_time_    ;
-    TimeStatus time_status_;
-    DATE date_;
-    ULong receiver_status_;
-    UShort receiver_sw_version_;
-*/
+    parseIdleTime(fields.at(4));
+    parseSequience(fields.at(3));
+    date_ = DATE(std::stod(fields.at(7)), std::stod(fields.at(6)));
+
+
     return true;
 }
 
@@ -100,6 +95,27 @@ bool OemHeader::parseMessageID(const std::string &msgID)
     return false;
 
 }
+
+bool OemHeader::parseTimeStatus(const std::string &msgField)
+{
+
+    time_status_ = UNKNOWN;
+
+    if(msgField == "TS_FINESTEERING") time_status_ = FINESTEERING; return true;
+    if(msgField == "TS_FINE") time_status_ = FINE; return true;
+    if(msgField == "SATTIME") time_status_ = SATTIME; return true;
+    if(msgField == "APPROXIMATE") time_status_ = APPROXIMATE; return true;
+    if(msgField == "COARSEADJUSTING") time_status_ = COARSEADJUSTING; return true;
+    if(msgField == "COARSE") time_status_ = COARSE; return true;
+    if(msgField == "COARSESTEERING") time_status_ = COARSESTEERING; return true;
+    if(msgField == "FREEWHEELING") time_status_ = FREEWHEELING; return true;
+    if(msgField == "FINEADJUST") time_status_ = FINEADJUSTING; return true;
+    if(msgField == "FINEBACKUPSTEERING") time_status_ = FINEBACKUPSTEERING; return true;
+
+    return false;
+}
+
+
 
 bool OemHeader::decodeBinary(const std::vector<UChar> &buf)
 {
